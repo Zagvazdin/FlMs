@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход и загрузка файлов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="upload.css">
+    <script>
+        let timeout;
+        let timeLeft = 150;
+
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeLeft = 15;
+            updateTimerDisplay();
+            updateProgressBar();
+            timeout = setTimeout(() => {
+                alert("Сессия завершена из-за отсутствия активности. Перезагрузка страницы.");
+                window.location.href = "/logout"; 
+            }, 15000);
+        }
+
+        function updateTimerDisplay() {
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = timeLeft;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+            }
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.querySelector('.progress-bar');
+            const percentage = (timeLeft / 15) * 100;
+            progressBar.style.width = percentage + '%';
+
+            if (timeLeft <= 10) {
+                progressBar.style.backgroundColor = 'red';
+            }
+        }
+
+        window.onload = function() {
+            document.body.style.display = 'block'; // Показываем содержимое после анимации
+
+            setTimeout(() => {
+                document.body.style.display = 'block'; // Показываем содержимое после анимации
+            }, 5000); // Задержка перед показом содержимого
+
+            document.querySelector('input[name="username"]').focus();
+            resetTimer();
+
+            const timerInterval = setInterval(() => {
+                updateTimerDisplay();
+                updateProgressBar();
+            }, 1000);
+        };
+
+        window.onmousemove = resetTimer;
+        window.onkeydown = resetTimer;
+    </script>
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<header>
+    <h1 id="dynamic-header">Spring Manager</h1>
+</header>
+
+<div class="splash">SPRING</div>
+
+<div class="container">
+    <h1>Добро пожаловать!</h1>
+    <h2>Вход в систему</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li style="color: red;">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="/login" method="post">
+        <input type="text" name="username" placeholder="Логин" pattern="\d{1,6}" required>
+        <input type="password" name="password" placeholder="Пароль" pattern="\d{1,6}" required>
+        <button type="submit">Войти</button>
+    </form>
+
+    <div class="timer">
+        Осталось времени: <span id="timer">60</span> секунд
+    </div>
+    <div class="progress">
+        <div class="progress-bar"></div>
+    </div>
+
+    {% if user_role == 'admin' or user_role == 'usser' %}
+    <h2>Загрузка файлов</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Загрузить файл</button>
+    </form>
+    {% endif %}
+</div>
+
+<footer>
+    <p>&copy; 2024 Ваше имя. Все права защищены.</p>
+    <p><i class="fas fa-envelope"></i> Свяжитесь с нами: info@example.com</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анализа сектора</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-image: url('/static/фон2.png'); /* Укажите путь к вашему изображению */
+      background-size: cover; /* Заставляет изображение заполнять весь фон */
+      background-position: center; /* Центрирует изображение */
+      background-attachment: fixed; /* Фон неподвижен при прокрутке */
+      margin: 0;
+      padding: 0;
+  }
+  header {
+      background-image: url('/static/фонhed.png'); /* Укажите путь к вашему изображению */
+      color: rgb(163, 238, 82);
+      padding: 10px 0;
+      text-align: center;
+      position: relative; /* Для линии */
+      overflow: hidden; /* Скрываем лишнее */
+      animation: headerAnimation 2s forwards; /* Применение анимации */
+  }
+  @keyframes neonBorder {
+      0% {
+          border-color: rgba(255, 0, 0, 1); /* Красный */
+          box-shadow: 0 0 10px rgba(255, 0, 0, 1), 0 0 20px rgba(255, 0, 0, 1); /* Свечение */
+      }
+      20% {
+          border-color: rgba(255, 165, 0, 1); /* Оранжевый */
+          box-shadow: 0 0 10px rgba(255, 165, 0, 1), 0 0 20px rgba(255, 165, 0, 1);
+      }
+      40% {
+          border-color: rgba(255, 255, 0, 1); /* Желтый */
+          box-shadow: 0 0 10px rgba(255, 255, 0, 1), 0 0 20px rgba(255, 255, 0, 1);
+      }
+      60% {
+          border-color: rgba(0, 255, 0, 1); /* Зеленый */
+          box-shadow: 0 0 10px rgba(0, 255, 0, 1), 0 0 20px rgba(0, 255, 0, 1);
+      }
+      80% {
+          border-color: rgba(0, 255, 255, 1); /* Голубой */
+          box-shadow: 0 0 10px rgba(0, 255, 255, 1), 0 0 20px rgba(0, 255, 255, 1);
+      }
+      100% {
+          border-color: rgba(0, 0, 255, 1); /* Синий */
+          box-shadow: 0 0 10px rgba(0, 0, 255, 1), 0 0 20px rgba(0, 0, 255, 1);
+      }
+  }
+
+  .container {
+      color:#f4f9f5;
+      width: 90%;
+      max-width: 800px;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px;
+      background: url('./static/фонблок.png') no-repeat center center; /* Фон контейнера */
+      background-size: cover; /* Заполнение контейнера фоном */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin-top: 20px;
+      border: 5px solid rgba(255, 0, 0, 1); /* Начальный цвет обводки */
+      animation: neonBorder 10s linear infinite; /* Анимация обводки */
+  }
+
+  footer {        
+      text-align: center;
+      padding: 10px;
+      gap: 5px;
+      background-color: #f4f9f5;
+      color: rgb(255, 252, 252);
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(244, 249, 245, 0); /* Полупрозрачный фон */
+  }
+  
+  .icon {
+      color: rgb(249, 248, 248); /* Цвет иконок по умолчанию */
+      text-decoration: none; /* Убираем подчеркивание */
+      margin: 0 10px; /* Отступы между иконками */
+      transition: color 0.3s;
+      font-size: 40px; /* Установите начальный размер иконок */
+  }
+  
+  .icon:hover {
+      color: #00f; /* Цвет при наведении (синий неон) */
+  }
+  input[type="file"], input[type="number"], input[type="text"] {
+      width: 100%;
+      margin: 10px 0;
+      border: 5px solid transparent; /* Начальная рамка */
+      border-radius: 5px; /* Закругление углов */
+      transition: border 0.3s, box-shadow 0.3s; /* Плавный переход */
+  }
+  input[type="file"]:focus, input[type="number"]:focus, input[type="text"]:focus {
+      border: 5px solid white; /* Белая рамка при фокусе */
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Эффект неона */
+      animation: pulse 1s infinite; /* Анимация пульсации */
+  }
+  @keyframes pulse {
+      0% {
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+      50% {
+          box-shadow: 0 0 20px rgba(255, 255, 255, 1);
+      }
+      100% {
+          box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+  }
+
+  button {
+      width: 200px; /* фиксированная ширина */
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-block; /* для центрирования */
+  }
+  button:hover {
+      background-color: #45a049; /* Темно-зеленый при наведении */
+  }
+  button:active {
+      background-color: #800000; /* бордовый цвет */
+      transform: scale(0.95); /* уменьшение на 5% */
+  }
+  .datetime-widget {
+      color: white;
+      background: url('./static/фонорг.png') no-repeat center center; 
+      position: fixed;
+      top: 100px;
+      right: 5px;
+      text-align: center;
+      background-color: white;
+      padding: 5px;
+      border: 5px solid #ccc;
+      border-radius: 45px;
+      box-shadow: 0 0 10px rgba(3, 235, 61, 0.1);
+      animation: neonBorder 10s linear infinite; /* Анимация обводки */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  #processing-message {
+      display: none;
+      background-color: #fff3cd;
+      color: #856404;
+      padding: 15px;
+      margin-top: 20px;
+      border: 1px solid #ffeeba;
+      border-radius: 5px;
+      text-align: center;
+  }
+  .flex-container {
+      display: flex;
+      align-items: center;
+      max-width: 350px; /* или другой размер, который вам нужен */
+  }
+  .logo {
+      width:10%; /* Увеличение размера в 2 раза */
+      position: fixed; /* Закрепляет элемент */
+      top: 1%; /* Расположение сверху */
+      right: 1100px;
+      z-index: 1000; /* Убедитесь, что логотип выше других элементов */
+      opacity: 0; /* Скрыть логотип изначально */
+      transition: opacity 1s; /* Плавный переход */
+  }
+  .show {
+      opacity: 1; /* Логотип будет видимым */
+  }
+
+  .neon-text {
+      color: white; /* Цвет текста */
+      text-shadow: 
+          0 0 5px rgba(255, 255, 255, 0.8),
+          0 0 10px rgba(255, 255, 255, 0.6),
+          0 0 15px rgba(255, 255, 255, 0.4),
+          0 0 20px rgba(255, 255, 255, 0.2),
+          0 0 25px rgba(255, 255, 255, 0.1); /* Эффект неона */
+      animation: neon 1.5s ease-in-out infinite alternate; /* Анимация неона */
+  }
+
+  @keyframes neon {
+      0% {
+          text-shadow: 
+              0 0 5px rgba(255, 255, 255, 0.8),
+              0 0 10px rgba(255, 255, 255, 0.6),
+              0 0 15px rgba(255, 255, 255, 0.4),
+              0 0 20px rgba(255, 255, 255, 0.2),
+              0 0 25px rgba(255, 255, 255, 0.1);
+      }
+      100% {
+          text-shadow: 
+              0 0 10px rgba(255, 255, 255, 1),
+              0 0 20px rgba(255, 255, 255, 0.8),
+              0 0 30px rgba(255, 255, 255, 0.6),
+              0 0 40px rgba(255, 255, 255, 0.4),
+              0 0 50px rgba(255, 255, 255, 0.2);
+      }
+  }
+</style>
+
+<script>
+    function showProcessingMessage() {
+        const message = document.getElementById('processing-message');
+        message.style.display = 'block';
+        setTimeout(() => {
+            message.style.display = 'none';
+        }, 1000);
+    }
+
+    function updateDateTime() {
+        const now = new Date();
+        document.getElementById('today').textContent = `День недели: ${getDayOfWeek(now)}`;
+        document.getElementById('datetime').textContent = `Дата и время: ${now.toLocaleString('ru-RU')}`;
+        document.getElementById('workdays').textContent = `Оставшиеся рабочие дни: ${getRemainingWorkdays(now)}`;
+    }
+
+    function getDayOfWeek(date) {
+        const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+        return days[date.getDay()];
+    }
+
+    function getRemainingWorkdays(date) {
+        const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0); // Последний день месяца
+        let remainingDays = 0;
+
+        for (let d = date.getDate(); d <= endOfMonth.getDate(); d++) {
+            const currentDay = new Date(date.getFullYear(), date.getMonth(), d);
+            if (currentDay.getDay() !== 0 && currentDay.getDay() !== 6) { // Пропускаем воскресенье (0) и субботу (6)
+                remainingDays++;
+            }
+        }
+        return remainingDays;
+    }
+
+    function setSectorNumber() {
+        const sectorNumber = document.getElementById('sector_number').value;
+        document.getElementById('sector_number_sales').value = sectorNumber;
+        document.getElementById('sector_number_average').value = sectorNumber;
+    }
+
+
+
+    window.onload = function() {
+        updateDateTime();
+        setInterval(updateDateTime, 1000); // Обновляем каждую секунду
+        document.querySelector('header').classList.add('animate-header'); // Запускаем анимацию фона заголовка
+        document.querySelector('header').appendChild(createLine()); // Добавляем линию
+
+        // Показать логотип через секунды
+        setTimeout(function() {
+            document.querySelector('.logo').classList.add('show');
+        }, 500);
+    };
+
+    function createLine() {
+        const line = document.createElement('div');
+        line.className = 'line';
+        return line;
+    }
+    function addSectorFields() {
+            const count = document.getElementById('sector_count').value;
+            const sectorsDiv = document.getElementById('sectors');
+            sectorsDiv.innerHTML = ''; // Очистить предыдущие поля
+
+            for (let i = 0; i < count; i++) {
+                sectorsDiv.innerHTML += `
+                    <label for="sector_${i}">Название сектора ${i + 1}:</label>
+                    <input type="text" id="sector_${i}" name="sectors" required>
+                    <br>
+                `;
+            }
+        }
+    function addSectorFields() {
+        const count = document.getElementById('sector_count').value;
+        const sectorsDiv = document.getElementById('sectors');
+        sectorsDiv.innerHTML = ''; // Очистить предыдущие поля
+        for (let i = 0; i < count; i++) {
+            sectorsDiv.innerHTML += `
+                <label for="sector_${i}">Название сектора ${i + 1}:</label>
+                <input type="text" id="sector_${i}" name="sectors" required>
+                <br>
+            `;
+        }
+    }
+</script>
+</head>
+<body>
+
+<header>
+    
+<h1 class="neon-text">Анализа сектора</h1>
+<img src="{{ url_for('static', filename='logo2.png') }}" alt="Логотип" class="logo">
+</header>   
+<!-- Новый div с кнопкой Первый старт -->
+<div class="container">
+    <h1 class="neon-text">Первый старт</h1>
+    <form action="/download" method="post">
+        <div class="form-group">
+            <label for="save_path">Введите путь для сохранения файлов:</label>
+            <input type="text" id="save_path" name="save_path" required placeholder="Введите путь к папке">
+            <button type="submit">Создать файлы</button>
+        </div>
+        
+        <div class="form-group">
+            <label for="sector_count">Введите количество секторов:</label>
+            <input type="number" id="sector_count" name="sector_count" min="1" required>
+        </div>
+        
+        <div id="sectors"></div>
+        <button type="button" onclick="addSectorFields()">Добавить названия секторов</button>
+    </form>
+</div>
+<div class="container">
+<h1 class="neon-text">Планирование на месяц</h1>
+<form action="/process" method="post" enctype="multipart/form-data" onsubmit="showProcessingMessage(); setSectorNumber()">
+    <label for="od_file">Загрузите файл Отгрузку Демо за месяц:</label>
+    <input type="file" name="od_file" id="od_file" required>
+    <div class="flex-container">
+        <label for="plan">Введите количество упаковок:</label>
+        <input type="number" name="plan" id="plan" required>
+    </div>
+    <div class="flex-container">
+        <label for="sector_number">Введите номер сектора:</label>
+        <input type="text" name="sector_number" id="sector_number" required onchange="setSectorNumber()">
+    </div>
+    <button type="submit">Обработать файлы</button>
+</form>
+</div>
+
+<div class="container">
+<h1 class="neon-text">Продажи</h1>
+<form action="/upload" method="post" enctype="multipart/form-data" onsubmit="showProcessingMessage()">
+    <label for="sales_file">Загрузите Отгрузку Демо:</label>
+    <input type="file" name="sales_file" id="sales_file" required>
+    <label for="planning_file">Загрузите Планирование сектора:</label>
+    <input type="file" name="planning_file" id="planning_file" required>
+    <div class="flex-container">
+        <label for="sector_number_sales">Номер сектора:</label>
+        <input type="text" name="sector_number" id="sector_number_sales" required>
+    </div>
+    <button type="submit">Обработать файлы</button>
+</form>
+</div>
+
+<div class="container">
+<h1 class="neon-text">Средняя цена за упаковку</h1>
+<form action="/up_file" method="post" enctype="multipart/form-data" onsubmit="showProcessingMessage()">
+    <label for="previous_month_file">Отгрузку Демо за Предыдущий месяц:</label>
+    <input type="file" name="previous_month_file" id="previous_month_file" required>
+    <label for="current_month_file">Отгрузку Демо текущий месяц:</label>
+    <input type="file" name="current_month_file" id="current_month_file" required>
+    <div class="flex-container">
+        <label for="sector_number_average">Номер сектора:</label>
+        <input type="text" name="sector_number" id="sector_number_average" required>
+    </div>
+    <button type="submit">Обработать файлы</button>
+</form>
+</div>
+
+<div id="processing-message">Идет обработка файлов, пожалуйста, подождите...</div>
+
+<div class="datetime-widget">
+  <p id="datetime"></p>
+  <p id="today"></p>
+  <p id="workdays"></p>
+</div>
+
+<div class="container">
+  <footer>
+      <p>
+          <a href="mailto:email@example.com" class="icon"><i class="fas fa-envelope"></i></a>
+          <a href="https://instagram.com/ваш_профиль" target="_blank" class="icon"><i class="fab fa-instagram"></i></a>
+          <a href="https://ваш_сайт.com" target="_blank" class="icon"><i class="fas fa-globe"></i></a>
+          <a href="tel:+71234567890" class="icon"><i class="fas fa-phone"></i></a>
+      </p>
+      <p>&copy; 2024 Ваше имя. Все права защищены.</p>
+  </footer>
+</div>
+</body>
+</html>

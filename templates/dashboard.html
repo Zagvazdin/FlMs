@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url('/static/фон3.png'); 
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            background-image: url('/static/фонhed.png'); 
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            text-align: center; /* Центрирование текста в блоке */
+            width: 30%;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            background-image: url('/static/фонрамка.png'); /* Добавляем фоновое изображение */
+            background-size: cover; /* Настройка размера фона */
+            background-repeat: no-repeat; /* Не повторять изображение */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 100px;
+            border: 5px solid transparent; /* Начальный цвет рамки */
+            animation: blink 1s infinite, fadeIn 1s forwards; /* Анимации */
+            opacity: 0; /* Начальная непрозрачность */
+            animation-delay: 0.5s; /* Задержка перед началом анимации */
+        }
+        a {
+            
+            display: inline-block; /* Изменяем на inline-block для более точного управления */
+            margin: 20px 0;
+            text-decoration: none;
+            color: #4CAF50;
+            padding: 10px 15px; /* Добавляем отступы для кнопок */
+            border: 2px solid transparent; /* Начальный цвет рамки */
+            border-radius: 5px; /* Закругляем углы кнопок */
+            transition: border-color 0.3s ease; /* Плавный переход цвета рамки */
+        }
+        
+        a:hover {
+            border-color: #00BFFF; /* Бирюзовый цвет при наведении */
+            box-shadow: 0 0 10px #00BFFF; /* Неоновый эффект */
+        }
+        @keyframes blink {
+                0% { border-color: rgb(152, 232, 229); box-shadow: 0 0 5px rgb(152, 232, 229); }
+                25% { border-color: #00BFFF; box-shadow: 0 0 10px #00BFFF, 0 0 20px #00BFFF; } /* Яркий бирюзовый */
+                50% { border-color: #1E90FF; box-shadow: 0 0 15px #1E90FF, 0 0 25px #1E90FF; } /* Яркий светло-синий */
+                75% { border-color: #00CED1; box-shadow: 0 0 20px #00CED1, 0 0 30px #00CED1; } /* Яркий темно-бирюзовый */
+                100% { border-color: rgb(13, 230, 215); box-shadow: 0 0 25px rgb(13, 230, 215); }
+            }
+
+             
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                filter: blur(10px); /* Размытие */
+            }
+            to {
+                opacity: 1;
+                filter: blur(0); /* Убираем размытие */
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 95%; /* Ширина контейнера для планшетов и мобильных устройств */
+                margin-top: 50px; /* Уменьшаем отступ сверху */
+            }
+        
+            h2 {
+                font-size: 1.5em; /* Уменьшаем размер шрифта заголовка */
+            }
+        
+            p {
+                font-size: 1em; /* Уменьшаем размер шрифта абзаца */
+            }
+        
+            a {
+                padding: 8px 12px; /* Уменьшаем отступы кнопок */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.2em; /* Еще больше уменьшаем размер шрифта заголовка */
+            }
+        
+            p {
+                font-size: 0.9em; /* Уменьшаем размер шрифта абзаца */
+            }
+        
+            a {
+                padding: 6px 10px; /* Уменьшаем отступы кнопок еще больше */
+            }
+        }
+        h2 {
+                color: #FFFFFF; /* Цвет текста */
+                text-shadow: 0 0 5px #FFFFFF, 0 0 10px #FFFFFF, 0 0 15px #FFFFFF; /* Неоновый эффект */
+                transition: text-shadow 0.3s ease; /* Плавный переход */
+            }
+
+            h2:hover {
+                text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF; /* Ярче при наведении */
+            }
+
+            p {
+                color: #FFFFFF; /* Цвет текста */
+                text-shadow: 0 0 3px #FFFFFF, 0 0 6px #FFFFFF; /* Тусклее для абзаца */
+                transition: text-shadow 0.3s ease; /* Плавный переход */
+            }
+
+            p:hover {
+                text-shadow: 0 0 5px #FFFFFF, 0 0 10px #FFFFFF; /* Ярче при наведении */
+            }
+            a:hover {
+                text-shadow: 0 0 10px #FFFFFF, 0 0 20px #FFFFFF, 0 0 30px #FFFFFF; /* Ярче при наведении */
+            }
+        a {
+            
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Панель управления</h1>
+</header>
+
+<div class="container">
+    <h2>Добро пожаловать, {{ username }}!</h2>
+    <p>Подготовка файла отгрузка Демо :</p>
+    <p>1 Скопируйте Отгрузку Демо из 1С</p>
+    <p>2 Добавьте в файл Эксель</p>
+   
+    <a href="/upload">3 Загрузить файлы </a>
+    <a href="/logout">Выйти</a>
+</div>
+
+</body>
+</html>

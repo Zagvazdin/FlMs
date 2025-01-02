@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Время вышло</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0e120f;
+            text-align: center;
+            padding: 50px;
+            background-image: url('/static/время.png');
+             
+        
+        }
+        h1 {
+            padding: 80px 0px;           
+            color: #ff0000;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        #timer {
+            font-size: 88px;
+            padding: 20px;
+            margin-top: 20px;        
+            color: #00ff00;
+            text-shadow: 
+                0 0 5px #00ff00, 
+                0 0 10px #00ff00, 
+                0 0 15px #00ff00, 
+                0 0 20px #f26011;
+            animation: glow 1.5s infinite alternate;
+        }
+        p{
+            color:wheat;
+            font-size: 50px;
+        }
+        @keyframes glow {
+            0% { text-shadow: 
+                0 0 5px #00ff00, 
+                0 0 10px #4bc44b, 
+                0 0 15px #247e24, 
+                0 0 20px #0c380c; }
+            100% { text-shadow: 
+                0 0 10px #e61b6c, 
+                0 0 20px #2668d9, 
+                0 0 30px #688b1b, 
+                0 0 40px #9feb11; }
+        }
+    </style>
+    <script>
+        let timeout;
+        let timeLeft = 10;
+
+        function startTimeout() {
+            timeout = setTimeout(function() {
+                alert("Сессия истекла. Закрываю вкладку.");
+                window.close();
+            }, timeLeft * 1000); // 10 секунд
+
+            const timerElement = document.getElementById('timer');
+            const interval = setInterval(function() {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+        function resetTimeout() {
+            clearTimeout(timeout);
+            timeLeft = 10; // Сброс времени
+            document.getElementById('timer').textContent = timeLeft;
+            startTimeout();
+        }
+
+        window.onload = startTimeout;
+    </script>
+</head>
+<body>
+
+    <h1>Вернитесь на главную страницу. </br> Время вышло!</h1>
+    <p>Сессия истечет через  </p>
+    <div id="timer">10</div>
+    <button onclick="resetTimeout(); window.location.href='/'">Вернуться на главную страницу</button>
+    
+
+</body>
+</html>

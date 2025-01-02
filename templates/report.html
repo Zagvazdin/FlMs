@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Итоговый отчет</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Итоговый отчет</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Название клиента</th>
+                <th>Адрес</th>
+                <th>План</th>
+                <th>Продано</th>
+                <th>Ост. продать</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in final_df.iterrows() %}
+            <tr>
+                <td>{{ row[1]['Название клиента'] }}</td>
+                <td>{{ row[1]['Адрес'] }}</td>
+                <td>{{ row[1]['План'] }}</td>
+                <td>{{ row[1]['Продано'] }}</td>
+                <td>{{ row[1]['Осталось продать'] }}</td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
